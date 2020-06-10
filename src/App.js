@@ -1,26 +1,49 @@
-import React from 'react';
-import logo from './logo.svg';
-import './App.css';
+import React, { useState } from 'react'
+import { Button, FormGroup, FormControl, FormLabel, FormFile } from 'react-bootstrap'
+import './App.css'
 
-function App() {
+export default function App() {
+  const [firstName, setFirstName]             = useState('')
+  const [lastName, setLastName]               = useState('')
+  // const [encryptionToken, setEncryptionToken] = useState('')
+
+  function validateForm() {
+    return firstName.length > 0 && lastName.length > 0 // && encryptionToken.length > 0
+  }
+
+  async function handleSubmit(event) {
+    event.preventDefault()
+    console.log('submit')
+  }
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+    <div className='App'>
+      <form onSubmit={handleSubmit}>
+        <FormGroup controlId='firstName'>
+          <FormLabel>First Name</FormLabel>
+          <FormControl
+            autoFocus
+            type='text'
+            value={firstName}
+            onChange={e => setFirstName(e.target.value)}
+          />
+        </FormGroup>
+        <FormGroup controlId='lastName'>
+          <FormLabel>Last Name</FormLabel>
+          <FormControl
+            autoFocus
+            type='text'
+            value={lastName}
+            onChange={e => setLastName(e.target.value)}
+          />
+        </FormGroup>
+        <FormGroup>
+          <FormFile id='cvFile' label='Add your CV' />
+        </FormGroup>
+        <Button block disabled={!validateForm()} type='submit'>
+          Submit
+        </Button>
+      </form>
     </div>
-  );
+  )
 }
-
-export default App;
